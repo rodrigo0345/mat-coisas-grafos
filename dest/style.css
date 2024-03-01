@@ -1,0 +1,16 @@
+
+.pi-class {
+    background-color: #FF0000;
+}
+
+.pc-class {
+    background-color: #0000FF;
+}
+
+.obs-class {
+    background-color: #808080; /* Gray color for obstacle */
+}
+
+.obs-class:hover {
+    /* Add hover style if needed */
+}
