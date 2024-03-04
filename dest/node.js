@@ -1,6 +1,7 @@
 export class Node {
     constructor(x, y, weight, element) {
         this.isDisabled = false;
+        this.isHiddenText = false;
         this.x = x;
         this.y = y;
         this.weight = weight;
@@ -14,6 +15,15 @@ export class Node {
     }
     activateNode() {
         this.isDisabled = false;
+    }
+    toggleHideText() {
+        if (this.isHiddenText) {
+            this.isHiddenText = false;
+            this.element.textContent = this.weight.toString();
+            return;
+        }
+        this.isHiddenText = true;
+        this.element.textContent = "";
     }
     toggleObstacleClass() {
         if (this.element.classList.contains("obs-class")) {

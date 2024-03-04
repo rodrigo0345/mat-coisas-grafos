@@ -18,21 +18,37 @@ export class Frontend {
   _startPoint: Node | null = null;
 
   _gridContainer: HTMLElement | null = null;
+  _findBtn: HTMLElement | null = null;
+  _weightBtn: HTMLElement | null = null;
+
   _gridSize: number = 7;
+  _isUsingWeights: boolean = false;
 
   _enabledType = NodeStateEnum.OBS_POINT;
 
   constructor(
     selectedList: HTMLElement,
     gridContainer: HTMLElement,
-    window: Window
+    window: Window,
+    findBtn: HTMLElement,
+    weightBtn: HTMLElement
   ) {
     this._selectedList = selectedList;
     this._gridContainer = gridContainer;
     this._window = window;
+    this._findBtn = findBtn;
+    this._weightBtn = weightBtn;
   }
 
   generateGrid() {
+    this._findBtn?.addEventListener("click", () => {
+      this.findPath();
+    });
+
+    this._weightBtn?.addEventListener("click", () => {
+      this.disableWeights();
+    });
+
     this._gridContainer?.style.setProperty(
       "grid-template-columns",
       `repeat(${this._gridSize}, 1fr)`
@@ -128,6 +144,13 @@ export class Frontend {
     }
   }
 
+  disableWeights() {
+    this._allPoints.forEach((point) => {
+      point.toggleHideText();
+    });
+    this._isUsingWeights = false;
+  }
+
   findPath() {
     if (this._startPoint === null || this._pointsOfInterest.length === 0) {
       window.alert("Ponto de começo ou de interesse não selecionado!");
@@ -137,7 +160,8 @@ export class Frontend {
     const aStar = new AStar(
       this._allPoints,
       this._startPoint,
-      this._pointsOfInterest
+      this._pointsOfInterest,
+      this._isUsingWeights
     );
     aStar.findPath();
   }

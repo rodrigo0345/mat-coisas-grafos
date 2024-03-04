@@ -7,21 +7,32 @@ var NodeStateEnum;
     NodeStateEnum["POINT_OF_INTEREST"] = "pi";
 })(NodeStateEnum || (NodeStateEnum = {}));
 export class Frontend {
-    constructor(selectedList, gridContainer, window) {
+    constructor(selectedList, gridContainer, window, findBtn, weightBtn) {
         this._allPoints = [];
         this._pointsOfInterest = [];
         this._obstaclePoints = [];
         this._startPoint = null;
         this._gridContainer = null;
+        this._findBtn = null;
+        this._weightBtn = null;
         this._gridSize = 7;
+        this._isUsingWeights = false;
         this._enabledType = NodeStateEnum.OBS_POINT;
         this._selectedList = selectedList;
         this._gridContainer = gridContainer;
         this._window = window;
+        this._findBtn = findBtn;
+        this._weightBtn = weightBtn;
     }
     generateGrid() {
-        var _a, _b;
-        (_a = this._gridContainer) === null || _a === void 0 ? void 0 : _a.style.setProperty("grid-template-columns", `repeat(${this._gridSize}, 1fr)`);
+        var _a, _b, _c, _d;
+        (_a = this._findBtn) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
+            this.findPath();
+        });
+        (_b = this._weightBtn) === null || _b === void 0 ? void 0 : _b.addEventListener("click", () => {
+            this.disableWeights();
+        });
+        (_c = this._gridContainer) === null || _c === void 0 ? void 0 : _c.style.setProperty("grid-template-columns", `repeat(${this._gridSize}, 1fr)`);
         for (let x = 0; x < this._gridSize; x++) {
             for (let y = 0; y < this._gridSize; y++) {
                 const weight = Math.floor(Math.random() * 8) + 1; // Random weight from 1 to 10
@@ -34,7 +45,7 @@ export class Frontend {
                 this._allPoints.push(new Node(x, y, weight, gridItem));
                 if (!this._gridContainer)
                     throw new Error("Grid container not found");
-                (_b = this._gridContainer) === null || _b === void 0 ? void 0 : _b.appendChild(gridItem);
+                (_d = this._gridContainer) === null || _d === void 0 ? void 0 : _d.appendChild(gridItem);
             }
         }
     }
@@ -100,12 +111,18 @@ export class Frontend {
                 this._toggleObstacle(point);
         }
     }
+    disableWeights() {
+        this._allPoints.forEach((point) => {
+            point.toggleHideText();
+        });
+        this._isUsingWeights = false;
+    }
     findPath() {
         if (this._startPoint === null || this._pointsOfInterest.length === 0) {
             window.alert("Ponto de começo ou de interesse não selecionado!");
             return;
         }
-        const aStar = new AStar(this._allPoints, this._startPoint, this._pointsOfInterest);
+        const aStar = new AStar(this._allPoints, this._startPoint, this._pointsOfInterest, this._isUsingWeights);
         aStar.findPath();
     }
 }

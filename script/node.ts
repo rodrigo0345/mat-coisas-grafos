@@ -4,6 +4,7 @@ export class Node {
   weight;
   element;
   isDisabled = false;
+  isHiddenText = false;
 
   constructor(x: number, y: number, weight: number, element: HTMLElement) {
     this.x = x;
@@ -21,6 +22,17 @@ export class Node {
   }
   activateNode() {
     this.isDisabled = false;
+  }
+
+  toggleHideText() {
+    if (this.isHiddenText) {
+      this.isHiddenText = false;
+      this.element.textContent = this.weight.toString();
+      return;
+    }
+
+    this.isHiddenText = true;
+    this.element.textContent = "";
   }
 
   toggleObstacleClass() {
