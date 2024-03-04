@@ -61,7 +61,7 @@ export class Node {
     }
   }
 
-  approximateDistance(node: Node) {
-    return Math.abs(this.x - node.x) + Math.abs(this.y - node.y);
+  getDistance(node: Node) {
+    return Math.abs(this.x - node.x) + Math.abs(this.y - node.y) + this.weight;
   }
 }
