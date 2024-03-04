@@ -60,7 +60,7 @@ export class Frontend {
             this._enabledType = NodeStateEnum.OBS_POINT;
         }
     }
-    _isSamePosition(point1, point2) {
+    static _isSamePosition(point1, point2) {
         return point1.x === point2.x && point1.y === point2.y;
     }
     _toggleObstacle(node) {
@@ -81,10 +81,10 @@ export class Frontend {
     }
     _toggleEndPoint(node) {
         if (this._pointsOfInterest.some((item) => {
-            return this._isSamePosition(item, node);
+            return Frontend._isSamePosition(item, node);
         })) {
             node.toggleEndpointClass();
-            this._pointsOfInterest = this._pointsOfInterest.filter((item) => !this._isSamePosition(item, node));
+            this._pointsOfInterest = this._pointsOfInterest.filter((item) => !Frontend._isSamePosition(item, node));
         }
         else {
             node.toggleEndpointClass();

@@ -21,7 +21,7 @@ export class Frontend {
   _findBtn: HTMLElement | null = null;
   _weightBtn: HTMLElement | null = null;
 
-  _gridSize: number = 7;
+  static _gridSize: number = 7;
   _isUsingWeights: boolean = false;
 
   _enabledType = NodeStateEnum.OBS_POINT;
@@ -51,11 +51,11 @@ export class Frontend {
 
     this._gridContainer?.style.setProperty(
       "grid-template-columns",
-      `repeat(${this._gridSize}, 1fr)`
+      `repeat(${Frontend._gridSize}, 1fr)`
     );
 
-    for (let x = 0; x < this._gridSize; x++) {
-      for (let y = 0; y < this._gridSize; y++) {
+    for (let x = 0; x < Frontend._gridSize; x++) {
+      for (let y = 0; y < Frontend._gridSize; y++) {
         const weight = Math.floor(Math.random() * 8) + 1; // Random weight from 1 to 10
         const gridItem = document.createElement("div");
         gridItem.classList.add("grid-item");
@@ -83,7 +83,7 @@ export class Frontend {
     }
   }
 
-  private _isSamePosition(point1: Node, point2: Node) {
+  static _isSamePosition(point1: Node, point2: Node) {
     return point1.x === point2.x && point1.y === point2.y;
   }
 
@@ -109,12 +109,12 @@ export class Frontend {
   private _toggleEndPoint(node: Node) {
     if (
       this._pointsOfInterest.some((item) => {
-        return this._isSamePosition(item, node);
+        return Frontend._isSamePosition(item, node);
       })
     ) {
       node.toggleEndpointClass();
       this._pointsOfInterest = this._pointsOfInterest.filter(
-        (item) => !this._isSamePosition(item, node)
+        (item) => !Frontend._isSamePosition(item, node)
       );
     } else {
       node.toggleEndpointClass();
