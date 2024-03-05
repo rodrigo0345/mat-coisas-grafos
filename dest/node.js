@@ -59,13 +59,9 @@ export class Node {
             this.element.classList.add("search-class");
         }
     }
-    toggleDebugClass() {
-        if (this.element.classList.contains("debug-class")) {
-            this.element.classList.remove("debug-class");
-        }
-        else {
+    enableDebugClass() {
+        if (!this.element.classList.contains("debug-class"))
             this.element.classList.add("debug-class");
-        }
     }
     togglePath() {
         if (this.element.classList.contains("path-class")) {

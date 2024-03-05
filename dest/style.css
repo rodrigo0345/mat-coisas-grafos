@@ -1,3 +1,7 @@
+.grid-item {
+    transition: all 0.3s ease;
+    background-color: white;
+}
 
 .pi-class {
     background-color: #e74c3c;

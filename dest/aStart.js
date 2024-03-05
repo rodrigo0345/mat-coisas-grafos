@@ -72,6 +72,7 @@ export class AStar {
             let closedList = [];
             while (openList.length > 0) {
                 let q = this.smallerF(openList);
+                yield this.sleep(200); // This is just for visualization purposes
                 // pop from the open list
                 openList = openList.filter((node) => {
                     return !node.node.equals(q.node);
@@ -101,17 +102,17 @@ export class AStar {
                     neighbor.setG(q.g + 1);
                     neighbor.setH(this.heuristic(neighbor.node, endPoint.node));
                     neighbor.setF(neighbor.getG() + neighbor.getH());
-                    if (openList.includes(neighbor) && neighbor.getF() < q.getF()) {
+                    if (openList.some((node) => node.node.equals(neighbor.node) && node.getF() < neighbor.getF())) {
                         continue;
                     }
-                    if (neighbor.getF() < q.getF() && !openList.includes(neighbor)) {
+                    if (closedList.some((node) => node.node.equals(neighbor.node) && node.getF() < neighbor.getF())) {
                         continue;
                     }
                     else {
                         openList.push(neighbor);
                     }
                 }
-                q.node.toggleDebugClass();
+                q.node.enableDebugClass();
                 closedList.push(q);
                 if (found) {
                     let current = objective;

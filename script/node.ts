@@ -69,12 +69,9 @@ export class Node {
     }
   }
 
-  toggleDebugClass() {
-    if (this.element.classList.contains("debug-class")) {
-      this.element.classList.remove("debug-class");
-    } else {
+  enableDebugClass() {
+    if (!this.element.classList.contains("debug-class"))
       this.element.classList.add("debug-class");
-    }
   }
 
   togglePath() {

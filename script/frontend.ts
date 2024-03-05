@@ -21,7 +21,7 @@ export class Frontend {
   _findBtn: HTMLElement | null = null;
   _weightBtn: HTMLElement | null = null;
 
-  static _gridSize: number = 7;
+  static _gridSize: number = 13;
   _isUsingWeights: boolean = false;
 
   _enabledType = NodeStateEnum.OBS_POINT;
