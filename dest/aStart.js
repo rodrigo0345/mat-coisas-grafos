@@ -70,9 +70,10 @@ export class AStar {
             const endPoint = new NodeBase(this._pointsOfInterest[0]);
             let openList = [startPoint];
             let closedList = [];
+            let found = false;
             while (openList.length > 0) {
                 let q = this.smallerF(openList);
-                yield this.sleep(200); // This is just for visualization purposes
+                yield this.sleep(50); // This is just for visualization purposes
                 // pop from the open list
                 openList = openList.filter((node) => {
                     return !node.node.equals(q.node);
@@ -90,7 +91,6 @@ export class AStar {
                 successors.forEach((neighbor) => {
                     neighbor.setParent(q);
                 });
-                let found = false;
                 let objective = null;
                 for (let i = 0; i < successors.length; i++) {
                     const neighbor = successors[i];
@@ -119,6 +119,9 @@ export class AStar {
                     this.colorPath(current);
                     break;
                 }
+            }
+            if (!found) {
+                window.alert("Caminho não encontrado!");
             }
         });
     }

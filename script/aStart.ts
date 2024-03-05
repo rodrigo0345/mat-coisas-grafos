@@ -91,9 +91,10 @@ export class AStar {
     let openList: NodeBase[] = [startPoint];
     let closedList: NodeBase[] = [];
 
+    let found = false;
     while (openList.length > 0) {
       let q = this.smallerF(openList);
-      await this.sleep(200); // This is just for visualization purposes
+      await this.sleep(50); // This is just for visualization purposes
 
       // pop from the open list
       openList = openList.filter((node) => {
@@ -115,7 +116,6 @@ export class AStar {
         neighbor.setParent(q);
       });
 
-      let found = false;
       let objective: NodeBase | null = null;
 
       for (let i = 0; i < successors.length; i++) {
@@ -159,6 +159,10 @@ export class AStar {
         this.colorPath(current);
         break;
       }
+    }
+
+    if (!found) {
+      window.alert("Caminho não encontrado!");
     }
   }
 

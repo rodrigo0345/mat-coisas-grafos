@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./dest/style.css">
+    <title>Data Grid</title>
+
+    <script type="module" src="./dest/index.js" defer></script>
+  <style>
+    .grid {
+      display: grid;
+      width: fit-content;
+      grid-template-columns: repeat(8, 1fr); /* Adjust the number of columns */
+      gap: 0px;
+    }
+
+    .grid-item {
+      width: 50px;
+      height: 50px;
+      border: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .grid-item.clicked {
+      background-color: lightblue;
+    }
+
+    #selected-items {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="grid" id="grid-container"></div>
+  
+  <div id="selected-items">
+    <h3>Selected Items:</h3>
+    <ul id="selected-list"></ul>
+  </div>
+
+  <div>
+    items
+    <select name="cars" id="type-selector">
+        <option value="obs">Obstáculo</option>
+        <option value="pi">Ponto de interesse</option>
+        <option value="pc">Ponto de começo</option>
+      </select>
+  </div>
+
+  <button id="weight-btn">Desativar pesos</button>
+  <button id="find-btn">Find Solution</button>
+</body>
+</html>
