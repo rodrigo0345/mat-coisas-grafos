@@ -16,11 +16,9 @@ window.addEventListener("load", () => {
 
   const gridItems = document.querySelectorAll(".grid-item");
   gridItems.forEach((item) => {
-    item.addEventListener("mouseover", function (e) {
+    item.addEventListener("click", function (e) {
       // check if he is pressing right click
-      if ((e as any).buttons === 1) {
-        frontend.toggleItem(e);
-      }
+      frontend.toggleItem(e);
     });
   });
 

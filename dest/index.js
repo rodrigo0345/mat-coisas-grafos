@@ -15,11 +15,9 @@ window.addEventListener("load", () => {
     frontend.disableWeights();
     const gridItems = document.querySelectorAll(".grid-item");
     gridItems.forEach((item) => {
-        item.addEventListener("mouseover", function (e) {
+        item.addEventListener("click", function (e) {
             // check if he is pressing right click
-            if (e.buttons === 1) {
-                frontend.toggleItem(e);
-            }
+            frontend.toggleItem(e);
         });
     });
     const typeSelector = document.getElementById("type-selector");
