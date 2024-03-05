@@ -54,8 +54,8 @@ export class Frontend {
       `repeat(${Frontend._gridSize}, 1fr)`
     );
 
-    for (let x = 0; x < Frontend._gridSize; x++) {
-      for (let y = 0; y < Frontend._gridSize; y++) {
+    for (let y = 1; y <= Frontend._gridSize; y++) {
+      for (let x = 1; x <= Frontend._gridSize; x++) {
         const weight = Math.floor(Math.random() * 8) + 1; // Random weight from 1 to 10
         const gridItem = document.createElement("div");
         gridItem.classList.add("grid-item");
@@ -125,7 +125,6 @@ export class Frontend {
   toggleItem(e: any) {
     const x = e.target.getAttribute("data-x");
     const y = e.target.getAttribute("data-y");
-    console.log(x, y);
     const point = this._allPoints.find((el) => {
       return el.x == x && el.y == y;
     });

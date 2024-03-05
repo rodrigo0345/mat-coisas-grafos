@@ -61,7 +61,35 @@ export class Node {
     }
   }
 
+  toggleSearchClass() {
+    if (this.element.classList.contains("search-class")) {
+      this.element.classList.remove("search-class");
+    } else {
+      this.element.classList.add("search-class");
+    }
+  }
+
+  toggleDebugClass() {
+    if (this.element.classList.contains("debug-class")) {
+      this.element.classList.remove("debug-class");
+    } else {
+      this.element.classList.add("debug-class");
+    }
+  }
+
+  togglePath() {
+    if (this.element.classList.contains("path-class")) {
+      this.element.classList.remove("path-class");
+    } else {
+      this.element.classList.add("path-class");
+    }
+  }
+
   getDistance(node: Node) {
-    return Math.abs(this.x - node.x) + Math.abs(this.y - node.y) + this.weight;
+    return Math.abs(this.x - node.x) + Math.abs(this.y - node.y);
+  }
+
+  equals(node: Node) {
+    return this.x === node.x && this.y === node.y;
   }
 }

@@ -1,5 +1,5 @@
-import { Frontend } from "./frontend";
-import { Node } from "./node";
+import { Frontend } from "./frontend.js";
+import { Node } from "./node.js";
 
 class NodeBase {
   node: Node;
@@ -16,7 +16,7 @@ class NodeBase {
     this.connection = null;
   }
 
-  setConnection(connection: NodeBase) {
+  setParent(connection: NodeBase) {
     this.connection = connection;
   }
 
@@ -24,8 +24,24 @@ class NodeBase {
     this.f = f;
   }
 
+  getF() {
+    return this.g + this.h;
+  }
+
+  getH() {
+    return this.h;
+  }
+
+  setH(h: number) {
+    this.h = h;
+  }
+
   setG(g: number) {
     this.g = g;
+  }
+
+  getG() {
+    return this.g;
   }
 }
 
@@ -49,97 +65,153 @@ export class AStar {
 
   heuristic(node1: Node, node2: Node) {
     if (this._isUsingWeights) {
-      return Math.abs(node1.x - node2.x) + Math.abs(node1.y - node2.y);
+      const dx = Math.abs(node1.x - node2.x);
+      const dy = Math.abs(node1.y - node2.y);
+      const heuristicWithoutWeights = dx + dy;
+      const weightFactor = node2.weight; // You can adjust this based on your specific weights
+      return heuristicWithoutWeights * weightFactor;
     }
     return Math.abs(node1.x - node2.x) + Math.abs(node1.y - node2.y);
   }
 
-  private getNeighbors(node: Node): Node[] {
-    const neighbors: Node[] = [];
+  smallerF(nodeArr: NodeBase[]) {
+    let smaller = nodeArr[0];
+    nodeArr.forEach((node) => {
+      if (node.getF() < smaller.getF()) {
+        smaller = node;
+      }
+    });
+    return smaller;
+  }
+
+  async findPath() {
+    const startPoint = new NodeBase(this._startPoint);
+    const endPoint = new NodeBase(this._pointsOfInterest[0]);
+
+    let openList: NodeBase[] = [startPoint];
+    let closedList: NodeBase[] = [];
+
+    while (openList.length > 0) {
+      let q = this.smallerF(openList);
+
+      // pop from the open list
+      openList = openList.filter((node) => {
+        return !node.node.equals(q.node);
+      });
+
+      // check for end
+      if (!q) {
+        break;
+      }
+      if (q.node.equals(endPoint.node)) {
+        break;
+      }
+
+      const successors = this.getNeighbors(q.node).filter((neighbor) => {
+        return !neighbor.node.isDisabled;
+      });
+      successors.forEach((neighbor) => {
+        neighbor.setParent(q);
+      });
+
+      let found = false;
+      let objective: NodeBase | null = null;
+
+      for (let i = 0; i < successors.length; i++) {
+        const neighbor = successors[i];
+        if (neighbor.node.equals(endPoint.node)) {
+          found = true;
+          objective = neighbor;
+          break;
+        }
+
+        neighbor.setG(q.g + 1);
+        neighbor.setH(this.heuristic(neighbor.node, endPoint.node));
+        neighbor.setF(neighbor.getG() + neighbor.getH());
+
+        if (openList.includes(neighbor) && neighbor.getF() < q.getF()) {
+          continue;
+        }
+
+        if (neighbor.getF() < q.getF() && !openList.includes(neighbor)) {
+          continue;
+        } else {
+          openList.push(neighbor);
+        }
+      }
+
+      q.node.toggleDebugClass();
+      closedList.push(q);
+
+      if (found) {
+        let current = objective!;
+        this.colorPath(current);
+        break;
+      }
+    }
+  }
+
+  private colorPath(node: NodeBase) {
+    if (node.connection) {
+      this.colorPath(node.connection);
+    }
+    node.node.togglePath();
+  }
+
+  private getNeighbors(node: Node): NodeBase[] {
+    const neighbors: NodeBase[] = [];
     const x = node.x;
     const y = node.y;
 
     // top neighbor
-    if (y - 1 >= 0) {
+    if (y - 1 > 0) {
       const topNeighbor = this._allPoints.find(
         (p) => p.x === x && p.y === y - 1
       );
       if (topNeighbor) {
-        neighbors.push(topNeighbor);
+        let nodeBase = new NodeBase(topNeighbor);
+        neighbors.push(nodeBase);
       }
     }
 
     // bottom neighbor
-    if (y + 1 < Frontend._gridSize) {
+    if (y + 1 <= Frontend._gridSize) {
       const bottomNeighbor = this._allPoints.find(
         (p) => p.x === x && p.y === y + 1
       );
       if (bottomNeighbor) {
-        neighbors.push(bottomNeighbor);
+        let nodeBase = new NodeBase(bottomNeighbor);
+        neighbors.push(nodeBase);
       }
     }
 
     // left neighbor
-    if (x - 1 >= 0) {
+    if (x - 1 > 0) {
       const leftNeighbor = this._allPoints.find(
         (p) => p.x === x - 1 && p.y === y
       );
 
       if (leftNeighbor) {
-        neighbors.push(leftNeighbor);
+        let nodeBase = new NodeBase(leftNeighbor);
+        neighbors.push(nodeBase);
       }
     }
 
     // right neighbor
-    if (x + 1 < Frontend._gridSize) {
+    if (x + 1 <= Frontend._gridSize) {
       const rightNeighbor = this._allPoints.find(
         (p) => p.x === x + 1 && p.y === y
       );
       if (rightNeighbor) {
-        neighbors.push(rightNeighbor);
+        let nodeBase = new NodeBase(rightNeighbor);
+        neighbors.push(nodeBase);
       }
     }
 
     return neighbors;
   }
 
-  findPath() {
-    const allPoints = this._allPoints.map((point) => new NodeBase(point));
-
-    const startPoint = new NodeBase(this._startPoint);
-    const toSearch: NodeBase[] = [startPoint];
-    const processed: NodeBase[] = [];
-    const finalPoint = this._pointsOfInterest[0];
-
-    while (toSearch.length > 0) {
-      let current = toSearch[0];
-
-      // ver se algum dos pontos para pesquisar tem melhor f
-      toSearch.forEach((point) => {
-        if (
-          point.f < current.f ||
-          (point.f === current.f && point.h < current.h)
-        ) {
-          current = point;
-        }
-      });
-
-      processed.push(current);
-
-      // remove o ponto atual da lista de pontos para pesquisar
-      toSearch.splice(toSearch.indexOf(current), 1);
-
-      this.getNeighbors(current.node)
-        .filter(
-          (neighbor) =>
-            !processed.some((p) => p.node === neighbor) && !neighbor.isDisabled
-        )
-        .forEach((neighbor) => {
-          const inSearch = toSearch.find((p) => p.node === neighbor);
-
-          // get distance já tem em conta o peso
-          const costToNeighbor = current.g + current.node.getDistance(neighbor);
-        });
-    }
+  private sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }

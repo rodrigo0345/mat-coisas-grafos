@@ -14,3 +14,15 @@
 .obs-class:hover {
     /* Add hover style if needed */
 }
+
+.search-class {
+    background-color: #f1c40f;
+}
+
+.debug-class {
+    background-color: #9b59b6;
+}
+
+.path-class {
+    background-color: #3498db;
+}
