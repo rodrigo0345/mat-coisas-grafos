@@ -30,3 +30,65 @@
 .path-class {
     background-color: #3498db;
 }
+
+#container-settings {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px 0px;
+    text-align: center;
+}
+
+select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 200px;
+    outline: none;
+    margin-right: 10px;
+}
+
+#weight-btn {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    margin-right: 10px;
+}
+
+#weight-btn:hover {
+    background-color: #fff;
+    cursor: pointer;
+}
+
+#find-btn {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    margin-right: 10px;
+}
+
+#find-btn:hover {
+    background-color: #35ff16;
+    cursor: pointer;
+}
+
+#reset-btn {
+    padding: 10px; 
+    font-size: 16px;
+    background-color: #e74c3c;
+    color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    margin-bottom: 10px;
+}
+
+#reset-btn:hover {
+    background-color: #ff5a4f;
+    cursor: pointer;
+}

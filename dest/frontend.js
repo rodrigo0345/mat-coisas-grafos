@@ -7,7 +7,7 @@ var NodeStateEnum;
     NodeStateEnum["POINT_OF_INTEREST"] = "pi";
 })(NodeStateEnum || (NodeStateEnum = {}));
 export class Frontend {
-    constructor(selectedList, gridContainer, window, findBtn, weightBtn) {
+    constructor(gridContainer, window, findBtn, weightBtn) {
         this._allPoints = [];
         this._pointsOfInterest = [];
         this._obstaclePoints = [];
@@ -17,7 +17,6 @@ export class Frontend {
         this._weightBtn = null;
         this._isUsingWeights = false;
         this._enabledType = NodeStateEnum.OBS_POINT;
-        this._selectedList = selectedList;
         this._gridContainer = gridContainer;
         this._window = window;
         this._findBtn = findBtn;

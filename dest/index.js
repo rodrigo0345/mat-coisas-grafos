@@ -1,6 +1,4 @@
 import { Frontend } from "./frontend.js";
-// gera a grid inicial
-const selectedList = document.getElementById("selected-list");
 // Create the grid on page load
 window.addEventListener("load", () => {
     const gridContainer = document.getElementById("grid-container");
@@ -8,18 +6,20 @@ window.addEventListener("load", () => {
     const weightBtn = document.getElementById("weight-btn");
     if (gridContainer === null)
         throw new Error("Grid container not found");
-    if (selectedList === null)
-        throw new Error("Selected list not found");
     if (findBtn === null)
         throw new Error("Find button not found");
     if (weightBtn === null)
         throw new Error("Weight button not found");
-    const frontend = new Frontend(selectedList, gridContainer, window, findBtn, weightBtn);
+    const frontend = new Frontend(gridContainer, window, findBtn, weightBtn);
     frontend.generateGrid();
+    frontend.disableWeights();
     const gridItems = document.querySelectorAll(".grid-item");
     gridItems.forEach((item) => {
-        item.addEventListener("click", function (e) {
-            frontend.toggleItem(e);
+        item.addEventListener("mouseover", function (e) {
+            // check if he is pressing right click
+            if (e.buttons === 1) {
+                frontend.toggleItem(e);
+            }
         });
     });
     const typeSelector = document.getElementById("type-selector");

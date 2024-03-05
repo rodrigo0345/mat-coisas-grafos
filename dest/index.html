@@ -35,25 +35,23 @@
     }
   </style>
 </head>
-<body>
+<body style="margin: auto; width: fit-content; padding: 1em;">
+
+  <button id="reset-btn">Reset</button>
   
   <div class="grid" id="grid-container"></div>
   
-  <div id="selected-items">
-    <h3>Selected Items:</h3>
-    <ul id="selected-list"></ul>
-  </div>
-
-  <div>
-    items
-    <select name="cars" id="type-selector">
+  <div id="container-settings" style="display: flex; justify-content: space-between;">
+      <select name="cars" id="type-selector">
         <option value="obs">Obstáculo</option>
         <option value="pi">Ponto de interesse</option>
         <option value="pc">Ponto de começo</option>
       </select>
+      <div>
+        <button id="weight-btn">Desativar pesos</button>
+        <button id="find-btn">Find Solution</button>
+      </div>
   </div>
 
-  <button id="weight-btn">Desativar pesos</button>
-  <button id="find-btn">Find Solution</button>
 </body>
 </html>

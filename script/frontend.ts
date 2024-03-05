@@ -9,8 +9,6 @@ enum NodeStateEnum {
 
 export class Frontend {
   _window: Window;
-  _selectedList: HTMLElement;
-
   _allPoints: Node[] = [];
   _pointsOfInterest: Node[] = [];
   _obstaclePoints: Node[] = [];
@@ -27,13 +25,11 @@ export class Frontend {
   _enabledType = NodeStateEnum.OBS_POINT;
 
   constructor(
-    selectedList: HTMLElement,
     gridContainer: HTMLElement,
     window: Window,
     findBtn: HTMLElement,
     weightBtn: HTMLElement
   ) {
-    this._selectedList = selectedList;
     this._gridContainer = gridContainer;
     this._window = window;
     this._findBtn = findBtn;
