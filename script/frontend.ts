@@ -37,6 +37,11 @@ export class Frontend {
   }
 
   generateGrid() {
+    // remove all children from grid container
+    while (this._gridContainer?.firstChild) {
+      this._gridContainer.removeChild(this._gridContainer.firstChild);
+    }
+
     this._findBtn?.addEventListener("click", () => {
       this.findPath();
     });

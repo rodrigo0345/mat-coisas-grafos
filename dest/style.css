@@ -1,6 +1,7 @@
 .grid-item {
     transition: all 0.1s ease;
     background-color: white;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .pi-class {
@@ -91,4 +92,14 @@ select {
 #reset-btn:hover {
     background-color: #ff5a4f;
     cursor: pointer;
+}
+
+#grid-size {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 70px;
+    outline: none;
+    margin-right: 10px;
 }

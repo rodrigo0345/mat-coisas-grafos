@@ -27,4 +27,18 @@ window.addEventListener("load", () => {
   typeSelector.addEventListener("change", function (e) {
     frontend.changeItemType(e);
   });
+
+  const changeGridSize = document.getElementById("grid-size");
+  console.log(changeGridSize);
+  if (changeGridSize === null) throw new Error("Change grid size not found");
+
+  changeGridSize.addEventListener("change", function (e: any) {
+    console.log("change");
+    if (e.target.value < 1 || e.target.value > 50) {
+      alert("Please enter a value between 1 and 50");
+      return;
+    }
+    Frontend._gridSize = parseInt(e.target.value, 13);
+    frontend.generateGrid();
+  });
 });
