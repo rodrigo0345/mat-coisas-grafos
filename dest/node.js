@@ -63,7 +63,7 @@ export class Node {
         if (!this.element.classList.contains("debug-class"))
             this.element.classList.add("debug-class");
     }
-    enablePath() {
+    colorPath() {
         this.element.classList.add("path-class");
     }
     getDistance(node) {

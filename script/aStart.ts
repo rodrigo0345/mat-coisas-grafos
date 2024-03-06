@@ -50,17 +50,20 @@ export class AStar {
   _startPoint: Node;
   _pointsOfInterest: Node[];
   _isUsingWeights: boolean;
+  _pointsToEnableEnd: Node[];
 
   constructor(
     allPoints: Node[],
     startPoint: Node,
     pointsOfInterest: Node[],
     isUsingWeights: boolean
+
   ) {
     this._allPoints = allPoints;
     this._startPoint = startPoint;
     this._isUsingWeights = isUsingWeights;
     this._pointsOfInterest = pointsOfInterest;
+    this._pointsToEnableEnd = [];
   }
 
   heuristic(node1: Node, node2: Node) {
@@ -114,14 +117,14 @@ export class AStar {
         let objective: NodeBase | null = null;
 
         for (let i = 0; i < successors.length; i++) {
-          const neighbor = successors[i];
+          let neighbor = successors[i];
           if (
             neighbor.node.equals(endPoint.node) &&
             n < this._pointsOfInterest.length
           ) {
             found = true;
             objective = neighbor;
-            startPoint = neighbor;
+            startPoint = neighbor;  
           }
           if (
             neighbor.node.equals(endPoint.node) &&
@@ -169,8 +172,10 @@ export class AStar {
         closedList.push(q);
 
         if (found) {
+          startPoint.node = this._pointsOfInterest[n];  
           let current = objective!;
-          this.colorPath(current);
+          this.colorPath(current);        
+          openList: null;
           break;
         }
       }
@@ -179,14 +184,19 @@ export class AStar {
         window.alert("Caminho não encontrado!");
       }
     }
+    this._pointsToEnableEnd.forEach(node =>{
+      node.activateNode()
+    })
   }
 
   private colorPath(node: NodeBase) {
-    console.log("color", node.node.x, node.node.y);
+
+    node.node.disableNode();
+    this._pointsToEnableEnd.push(node.node);
     if (node.connection) {
       this.colorPath(node.connection);
     }
-    node.node.enablePath();
+    node.node.colorPath();
   }
 
   private getNeighbors(node: Node): NodeBase[] {
