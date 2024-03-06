@@ -109,6 +109,8 @@ export class Frontend {
   }
 
   private _toggleEndPoint(node: Node) {
+    if (node.element.classList.contains("obs-class")) return;
+    if (node.element.classList.contains("pc-class")) return;
     if (
       this._pointsOfInterest.some((item) => {
         return Frontend._isSamePosition(item, node);
