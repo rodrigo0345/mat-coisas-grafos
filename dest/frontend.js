@@ -16,11 +16,15 @@ export class Frontend {
         this._findBtn = null;
         this._weightBtn = null;
         this._isUsingWeights = true;
+        this._delay = 50;
         this._enabledType = NodeStateEnum.OBS_POINT;
         this._gridContainer = gridContainer;
         this._window = window;
         this._findBtn = findBtn;
         this._weightBtn = weightBtn;
+    }
+    changeDelay(value) {
+        this._delay = value;
     }
     generateGrid() {
         var _a, _b, _c, _d;
@@ -121,7 +125,7 @@ export class Frontend {
             return;
         }
         console.log("using weights", this._isUsingWeights);
-        const aStar = new AStar(this._allPoints, this._startPoint, this._pointsOfInterest, this._isUsingWeights);
+        const aStar = new AStar(this._allPoints, this._startPoint, this._pointsOfInterest, this._isUsingWeights, this._delay);
         aStar.findPath();
     }
 }

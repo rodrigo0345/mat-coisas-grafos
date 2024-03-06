@@ -51,19 +51,21 @@ export class AStar {
   _pointsOfInterest: Node[];
   _isUsingWeights: boolean;
   _pointsToEnableEnd: Node[];
+  _delay: number;
 
   constructor(
     allPoints: Node[],
     startPoint: Node,
     pointsOfInterest: Node[],
-    isUsingWeights: boolean
-
+    isUsingWeights: boolean,
+    delay: number
   ) {
     this._allPoints = allPoints;
     this._startPoint = startPoint;
     this._isUsingWeights = isUsingWeights;
     this._pointsOfInterest = pointsOfInterest;
     this._pointsToEnableEnd = [];
+    this._delay = delay;
   }
 
   heuristic(node1: Node, node2: Node) {
@@ -92,7 +94,7 @@ export class AStar {
       let found = false;
       while (openList.length > 0) {
         let q = this.smallerF(openList);
-        await this.sleep(50); // This is just for visualization purposes
+        await this.sleep(this._delay); // This is just for visualization purposes
 
         // pop from the open list
         openList = openList.filter((node) => {
@@ -124,7 +126,7 @@ export class AStar {
           ) {
             found = true;
             objective = neighbor;
-            startPoint = neighbor;  
+            startPoint = neighbor;
           }
           if (
             neighbor.node.equals(endPoint.node) &&
@@ -172,9 +174,9 @@ export class AStar {
         closedList.push(q);
 
         if (found) {
-          startPoint.node = this._pointsOfInterest[n];  
+          startPoint.node = this._pointsOfInterest[n];
           let current = objective!;
-          this.colorPath(current);        
+          this.colorPath(current);
           openList: null;
           break;
         }
@@ -184,13 +186,12 @@ export class AStar {
         window.alert("Caminho não encontrado!");
       }
     }
-    this._pointsToEnableEnd.forEach(node =>{
-      node.activateNode()
-    })
+    this._pointsToEnableEnd.forEach((node) => {
+      node.activateNode();
+    });
   }
 
   private colorPath(node: NodeBase) {
-
     node.node.disableNode();
     this._pointsToEnableEnd.push(node.node);
     if (node.connection) {

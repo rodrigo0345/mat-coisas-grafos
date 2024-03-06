@@ -21,6 +21,7 @@ export class Frontend {
 
   static _gridSize: number = 13;
   _isUsingWeights: boolean = true;
+  _delay: number = 50;
 
   _enabledType = NodeStateEnum.OBS_POINT;
 
@@ -34,6 +35,10 @@ export class Frontend {
     this._window = window;
     this._findBtn = findBtn;
     this._weightBtn = weightBtn;
+  }
+
+  changeDelay(value: number) {
+    this._delay = value;
   }
 
   generateGrid() {
@@ -158,7 +163,8 @@ export class Frontend {
       this._allPoints,
       this._startPoint,
       this._pointsOfInterest,
-      this._isUsingWeights
+      this._isUsingWeights,
+      this._delay
     );
     aStar.findPath();
   }

@@ -39,12 +39,13 @@ class NodeBase {
     }
 }
 export class AStar {
-    constructor(allPoints, startPoint, pointsOfInterest, isUsingWeights) {
+    constructor(allPoints, startPoint, pointsOfInterest, isUsingWeights, delay) {
         this._allPoints = allPoints;
         this._startPoint = startPoint;
         this._isUsingWeights = isUsingWeights;
         this._pointsOfInterest = pointsOfInterest;
         this._pointsToEnableEnd = [];
+        this._delay = delay;
     }
     heuristic(node1, node2) {
         return Math.abs(node1.x - node2.x) + Math.abs(node1.y - node2.y);
@@ -68,7 +69,7 @@ export class AStar {
                 let found = false;
                 while (openList.length > 0) {
                     let q = this.smallerF(openList);
-                    yield this.sleep(50); // This is just for visualization purposes
+                    yield this.sleep(this._delay); // This is just for visualization purposes
                     // pop from the open list
                     openList = openList.filter((node) => {
                         return !node.node.equals(q.node);
@@ -131,7 +132,7 @@ export class AStar {
                     window.alert("Caminho não encontrado!");
                 }
             }
-            this._pointsToEnableEnd.forEach(node => {
+            this._pointsToEnableEnd.forEach((node) => {
                 node.activateNode();
             });
         });

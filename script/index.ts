@@ -28,12 +28,19 @@ window.addEventListener("load", () => {
     frontend.changeItemType(e);
   });
 
+  const delayChanger = document.getElementById("sleep-timer");
+  if (delayChanger === null) throw new Error("Delay changer not found");
+
+  delayChanger?.addEventListener("change", function (e: any) {
+    const delayValue = e.target?.value;
+    frontend.changeDelay(delayValue);
+  });
+
   const changeGridSize = document.getElementById("grid-size");
   console.log(changeGridSize);
   if (changeGridSize === null) throw new Error("Change grid size not found");
 
   changeGridSize.addEventListener("change", function (e: any) {
-    console.log("change");
     if (e.target.value < 1 || e.target.value > 50) {
       alert("Please enter a value between 1 and 50");
       return;

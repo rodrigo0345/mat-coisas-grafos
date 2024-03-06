@@ -26,12 +26,19 @@ window.addEventListener("load", () => {
     typeSelector.addEventListener("change", function (e) {
         frontend.changeItemType(e);
     });
+    const delayChanger = document.getElementById("sleep-timer");
+    if (delayChanger === null)
+        throw new Error("Delay changer not found");
+    delayChanger === null || delayChanger === void 0 ? void 0 : delayChanger.addEventListener("change", function (e) {
+        var _a;
+        const delayValue = (_a = e.target) === null || _a === void 0 ? void 0 : _a.value;
+        frontend.changeDelay(delayValue);
+    });
     const changeGridSize = document.getElementById("grid-size");
     console.log(changeGridSize);
     if (changeGridSize === null)
         throw new Error("Change grid size not found");
     changeGridSize.addEventListener("change", function (e) {
-        console.log("change");
         if (e.target.value < 1 || e.target.value > 50) {
             alert("Please enter a value between 1 and 50");
             return;
