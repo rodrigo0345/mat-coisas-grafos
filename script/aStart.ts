@@ -85,8 +85,12 @@ export class AStar {
   }
 
   async findPath() {
-    const startPoint = new NodeBase(this._startPoint);
-    const endPoint = new NodeBase(this._pointsOfInterest[0]);
+    let startPoint = new NodeBase(this._startPoint);
+    
+
+    for(let n = 0; n < this._pointsOfInterest.length; n++){
+
+    let endPoint = new NodeBase(this._pointsOfInterest[n]);
 
     let openList: NodeBase[] = [startPoint];
     let closedList: NodeBase[] = [];
@@ -120,10 +124,16 @@ export class AStar {
 
       for (let i = 0; i < successors.length; i++) {
         const neighbor = successors[i];
-        if (neighbor.node.equals(endPoint.node)) {
+        if(neighbor.node.equals(endPoint.node) && n < this._pointsOfInterest.length){
+          found = true;
+          objective = neighbor
+          startPoint = neighbor;
+        }
+        if (neighbor.node.equals(endPoint.node) && n == this._pointsOfInterest.length) {
           found = true;
           objective = neighbor;
           break;
+        
         }
 
         neighbor.setG(q.g + 1);
@@ -149,6 +159,7 @@ export class AStar {
         } else {
           openList.push(neighbor);
         }
+
       }
 
       q.node.enableDebugClass();
@@ -159,11 +170,13 @@ export class AStar {
         this.colorPath(current);
         break;
       }
+      
     }
 
     if (!found) {
       window.alert("Caminho não encontrado!");
     }
+   }
   }
 
   private colorPath(node: NodeBase) {

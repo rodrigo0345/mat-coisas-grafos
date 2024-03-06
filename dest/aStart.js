@@ -66,62 +66,69 @@ export class AStar {
     }
     findPath() {
         return __awaiter(this, void 0, void 0, function* () {
-            const startPoint = new NodeBase(this._startPoint);
-            const endPoint = new NodeBase(this._pointsOfInterest[0]);
-            let openList = [startPoint];
-            let closedList = [];
-            let found = false;
-            while (openList.length > 0) {
-                let q = this.smallerF(openList);
-                yield this.sleep(50); // This is just for visualization purposes
-                // pop from the open list
-                openList = openList.filter((node) => {
-                    return !node.node.equals(q.node);
-                });
-                // check for end
-                if (!q) {
-                    break;
-                }
-                if (q.node.equals(endPoint.node)) {
-                    break;
-                }
-                const successors = this.getNeighbors(q.node).filter((neighbor) => {
-                    return !neighbor.node.isDisabled;
-                });
-                successors.forEach((neighbor) => {
-                    neighbor.setParent(q);
-                });
-                let objective = null;
-                for (let i = 0; i < successors.length; i++) {
-                    const neighbor = successors[i];
-                    if (neighbor.node.equals(endPoint.node)) {
-                        found = true;
-                        objective = neighbor;
+            let startPoint = new NodeBase(this._startPoint);
+            for (let n = 0; n < this._pointsOfInterest.length; n++) {
+                let endPoint = new NodeBase(this._pointsOfInterest[n]);
+                let openList = [startPoint];
+                let closedList = [];
+                let found = false;
+                while (openList.length > 0) {
+                    let q = this.smallerF(openList);
+                    yield this.sleep(50); // This is just for visualization purposes
+                    // pop from the open list
+                    openList = openList.filter((node) => {
+                        return !node.node.equals(q.node);
+                    });
+                    // check for end
+                    if (!q) {
                         break;
                     }
-                    neighbor.setG(q.g + 1);
-                    neighbor.setH(this.heuristic(neighbor.node, endPoint.node));
-                    neighbor.setF(neighbor.getG() + neighbor.getH());
-                    if (openList.some((node) => node.node.equals(neighbor.node) && node.getF() < neighbor.getF())) {
-                        continue;
+                    if (q.node.equals(endPoint.node)) {
+                        break;
                     }
-                    if (closedList.some((node) => node.node.equals(neighbor.node) && node.getF() < neighbor.getF())) {
-                        continue;
+                    const successors = this.getNeighbors(q.node).filter((neighbor) => {
+                        return !neighbor.node.isDisabled;
+                    });
+                    successors.forEach((neighbor) => {
+                        neighbor.setParent(q);
+                    });
+                    let objective = null;
+                    for (let i = 0; i < successors.length; i++) {
+                        const neighbor = successors[i];
+                        if (neighbor.node.equals(endPoint.node) && n < this._pointsOfInterest.length) {
+                            found = true;
+                            objective = neighbor;
+                            startPoint = neighbor;
+                        }
+                        if (neighbor.node.equals(endPoint.node) && n == this._pointsOfInterest.length) {
+                            found = true;
+                            objective = neighbor;
+                            break;
+                        }
+                        neighbor.setG(q.g + 1);
+                        neighbor.setH(this.heuristic(neighbor.node, endPoint.node));
+                        neighbor.setF(neighbor.getG() + neighbor.getH());
+                        if (openList.some((node) => node.node.equals(neighbor.node) && node.getF() < neighbor.getF())) {
+                            continue;
+                        }
+                        if (closedList.some((node) => node.node.equals(neighbor.node) && node.getF() < neighbor.getF())) {
+                            continue;
+                        }
+                        else {
+                            openList.push(neighbor);
+                        }
                     }
-                    else {
-                        openList.push(neighbor);
+                    q.node.enableDebugClass();
+                    closedList.push(q);
+                    if (found) {
+                        let current = objective;
+                        this.colorPath(current);
+                        break;
                     }
                 }
-                q.node.enableDebugClass();
-                closedList.push(q);
-                if (found) {
-                    let current = objective;
-                    this.colorPath(current);
-                    break;
+                if (!found) {
+                    window.alert("Caminho não encontrado!");
                 }
-            }
-            if (!found) {
-                window.alert("Caminho não encontrado!");
             }
         });
     }
