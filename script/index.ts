@@ -27,4 +27,33 @@ window.addEventListener("load", () => {
   typeSelector.addEventListener("change", function (e) {
     frontend.changeItemType(e);
   });
+
+  const changeGridSize = document.getElementById("grid-size");
+  console.log(changeGridSize);
+  if (changeGridSize === null) throw new Error("Change grid size not found");
+
+  changeGridSize.addEventListener("change", function (e: any) {
+    console.log("change");
+    if (e.target.value < 1 || e.target.value > 50) {
+      alert("Please enter a value between 1 and 50");
+      return;
+    }
+    frontend._allPoints = [];
+    frontend._obstaclePoints = [];
+    frontend._startPoint = null;
+    frontend._pointsOfInterest = [];
+
+    Frontend._gridSize = parseInt(e.target.value, 10);
+    frontend.generateGrid();
+
+    frontend.disableWeights();
+
+    const gridItems = document.querySelectorAll(".grid-item");
+    gridItems.forEach((item) => {
+      item.addEventListener("click", function (e) {
+        // check if he is pressing right click
+        frontend.toggleItem(e);
+      });
+    });
+  });
 });

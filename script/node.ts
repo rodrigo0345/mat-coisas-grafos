@@ -74,12 +74,8 @@ export class Node {
       this.element.classList.add("debug-class");
   }
 
-  togglePath() {
-    if (this.element.classList.contains("path-class")) {
-      this.element.classList.remove("path-class");
-    } else {
-      this.element.classList.add("path-class");
-    }
+  enablePath() {
+    this.element.classList.add("path-class");
   }
 
   getDistance(node: Node) {

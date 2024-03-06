@@ -95,12 +95,14 @@ export class AStar {
                     let objective = null;
                     for (let i = 0; i < successors.length; i++) {
                         const neighbor = successors[i];
-                        if (neighbor.node.equals(endPoint.node) && n < this._pointsOfInterest.length) {
+                        if (neighbor.node.equals(endPoint.node) &&
+                            n < this._pointsOfInterest.length) {
                             found = true;
                             objective = neighbor;
                             startPoint = neighbor;
                         }
-                        if (neighbor.node.equals(endPoint.node) && n == this._pointsOfInterest.length) {
+                        if (neighbor.node.equals(endPoint.node) &&
+                            n == this._pointsOfInterest.length) {
                             found = true;
                             objective = neighbor;
                             break;
@@ -133,10 +135,11 @@ export class AStar {
         });
     }
     colorPath(node) {
+        console.log("color", node.node.x, node.node.y);
         if (node.connection) {
             this.colorPath(node.connection);
         }
-        node.node.togglePath();
+        node.node.enablePath();
     }
     getNeighbors(node) {
         const neighbors = [];

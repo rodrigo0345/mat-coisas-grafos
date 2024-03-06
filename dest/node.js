@@ -63,13 +63,8 @@ export class Node {
         if (!this.element.classList.contains("debug-class"))
             this.element.classList.add("debug-class");
     }
-    togglePath() {
-        if (this.element.classList.contains("path-class")) {
-            this.element.classList.remove("path-class");
-        }
-        else {
-            this.element.classList.add("path-class");
-        }
+    enablePath() {
+        this.element.classList.add("path-class");
     }
     getDistance(node) {
         return Math.abs(this.x - node.x) + Math.abs(this.y - node.y);
