@@ -64,13 +64,6 @@ export class AStar {
   }
 
   heuristic(node1: Node, node2: Node) {
-    if (this._isUsingWeights) {
-      const dx = Math.abs(node1.x - node2.x);
-      const dy = Math.abs(node1.y - node2.y);
-      const heuristicWithoutWeights = dx + dy;
-      const weightFactor = node2.weight; // You can adjust this based on your specific weights
-      return heuristicWithoutWeights * weightFactor;
-    }
     return Math.abs(node1.x - node2.x) + Math.abs(node1.y - node2.y);
   }
 
