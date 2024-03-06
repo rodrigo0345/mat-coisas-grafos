@@ -36,7 +36,19 @@ window.addEventListener("load", () => {
             alert("Please enter a value between 1 and 50");
             return;
         }
-        Frontend._gridSize = parseInt(e.target.value, 13);
+        frontend._allPoints = [];
+        frontend._obstaclePoints = [];
+        frontend._startPoint = null;
+        frontend._pointsOfInterest = [];
+        Frontend._gridSize = parseInt(e.target.value, 10);
         frontend.generateGrid();
+        frontend.disableWeights();
+        const gridItems = document.querySelectorAll(".grid-item");
+        gridItems.forEach((item) => {
+            item.addEventListener("click", function (e) {
+                // check if he is pressing right click
+                frontend.toggleItem(e);
+            });
+        });
     });
 });

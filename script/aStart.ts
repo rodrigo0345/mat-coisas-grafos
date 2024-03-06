@@ -86,104 +86,106 @@ export class AStar {
 
   async findPath() {
     let startPoint = new NodeBase(this._startPoint);
-    
 
-    for(let n = 0; n < this._pointsOfInterest.length; n++){
+    for (let n = 0; n < this._pointsOfInterest.length; n++) {
+      let endPoint = new NodeBase(this._pointsOfInterest[n]);
 
-    let endPoint = new NodeBase(this._pointsOfInterest[n]);
+      let openList: NodeBase[] = [startPoint];
+      let closedList: NodeBase[] = [];
 
-    let openList: NodeBase[] = [startPoint];
-    let closedList: NodeBase[] = [];
+      let found = false;
+      while (openList.length > 0) {
+        let q = this.smallerF(openList);
+        await this.sleep(50); // This is just for visualization purposes
 
-    let found = false;
-    while (openList.length > 0) {
-      let q = this.smallerF(openList);
-      await this.sleep(50); // This is just for visualization purposes
+        // pop from the open list
+        openList = openList.filter((node) => {
+          return !node.node.equals(q.node);
+        });
 
-      // pop from the open list
-      openList = openList.filter((node) => {
-        return !node.node.equals(q.node);
-      });
-
-      // check for end
-      if (!q) {
-        break;
-      }
-      if (q.node.equals(endPoint.node)) {
-        break;
-      }
-
-      const successors = this.getNeighbors(q.node).filter((neighbor) => {
-        return !neighbor.node.isDisabled;
-      });
-      successors.forEach((neighbor) => {
-        neighbor.setParent(q);
-      });
-
-      let objective: NodeBase | null = null;
-
-      for (let i = 0; i < successors.length; i++) {
-        const neighbor = successors[i];
-        if(neighbor.node.equals(endPoint.node) && n < this._pointsOfInterest.length){
-          found = true;
-          objective = neighbor
-          startPoint = neighbor;
-        }
-        if (neighbor.node.equals(endPoint.node) && n == this._pointsOfInterest.length) {
-          found = true;
-          objective = neighbor;
+        // check for end
+        if (!q) {
           break;
-        
+        }
+        if (q.node.equals(endPoint.node)) {
+          break;
         }
 
-        neighbor.setG(q.g + 1);
-        neighbor.setH(this.heuristic(neighbor.node, endPoint.node));
-        neighbor.setF(neighbor.getG() + neighbor.getH());
+        const successors = this.getNeighbors(q.node).filter((neighbor) => {
+          return !neighbor.node.isDisabled;
+        });
+        successors.forEach((neighbor) => {
+          neighbor.setParent(q);
+        });
 
-        if (
-          openList.some(
-            (node) =>
-              node.node.equals(neighbor.node) && node.getF() < neighbor.getF()
-          )
-        ) {
-          continue;
+        let objective: NodeBase | null = null;
+
+        for (let i = 0; i < successors.length; i++) {
+          const neighbor = successors[i];
+          if (
+            neighbor.node.equals(endPoint.node) &&
+            n < this._pointsOfInterest.length
+          ) {
+            found = true;
+            objective = neighbor;
+            startPoint = neighbor;
+          }
+          if (
+            neighbor.node.equals(endPoint.node) &&
+            n == this._pointsOfInterest.length
+          ) {
+            found = true;
+            objective = neighbor;
+            break;
+          }
+
+          neighbor.setG(q.g + 1);
+          neighbor.setH(this.heuristic(neighbor.node, endPoint.node));
+          neighbor.setF(neighbor.getG() + neighbor.getH());
+
+          if (
+            openList.some(
+              (node) =>
+                node.node.equals(neighbor.node) && node.getF() < neighbor.getF()
+            )
+          ) {
+            continue;
+          }
+
+          if (
+            closedList.some(
+              (node) =>
+                node.node.equals(neighbor.node) && node.getF() < neighbor.getF()
+            )
+          ) {
+            continue;
+          } else {
+            openList.push(neighbor);
+          }
         }
 
-        if (
-          closedList.some(
-            (node) =>
-              node.node.equals(neighbor.node) && node.getF() < neighbor.getF()
-          )
-        ) {
-          continue;
-        } else {
-          openList.push(neighbor);
-        }
+        q.node.enableDebugClass();
+        closedList.push(q);
 
+        if (found) {
+          let current = objective!;
+          this.colorPath(current);
+          break;
+        }
       }
 
-      q.node.enableDebugClass();
-      closedList.push(q);
-
-      if (found) {
-        let current = objective!;
-        this.colorPath(current);
-        break;
+      if (!found) {
+        window.alert("Caminho não encontrado!");
       }
-      
     }
-
-    if (!found) {
-      window.alert("Caminho não encontrado!");
-    }
-   }
   }
 
   private colorPath(node: NodeBase) {
+    console.log("color", node.node.x, node.node.y);
     if (node.connection) {
       this.colorPath(node.connection);
     }
-    node.node.togglePath();
+    node.node.enablePath();
   }
 
   private getNeighbors(node: Node): NodeBase[] {
