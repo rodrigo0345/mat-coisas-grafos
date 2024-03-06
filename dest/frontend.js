@@ -15,7 +15,7 @@ export class Frontend {
         this._gridContainer = null;
         this._findBtn = null;
         this._weightBtn = null;
-        this._isUsingWeights = false;
+        this._isUsingWeights = true;
         this._enabledType = NodeStateEnum.OBS_POINT;
         this._gridContainer = gridContainer;
         this._window = window;
@@ -113,13 +113,14 @@ export class Frontend {
         this._allPoints.forEach((point) => {
             point.toggleHideText();
         });
-        this._isUsingWeights = false;
+        this._isUsingWeights = !this._isUsingWeights;
     }
     findPath() {
         if (this._startPoint === null || this._pointsOfInterest.length === 0) {
             window.alert("Ponto de começo ou de interesse não selecionado!");
             return;
         }
+        console.log("using weights", this._isUsingWeights);
         const aStar = new AStar(this._allPoints, this._startPoint, this._pointsOfInterest, this._isUsingWeights);
         aStar.findPath();
     }

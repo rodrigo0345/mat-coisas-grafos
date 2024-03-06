@@ -20,7 +20,7 @@ export class Frontend {
   _weightBtn: HTMLElement | null = null;
 
   static _gridSize: number = 13;
-  _isUsingWeights: boolean = false;
+  _isUsingWeights: boolean = true;
 
   _enabledType = NodeStateEnum.OBS_POINT;
 
@@ -144,7 +144,7 @@ export class Frontend {
     this._allPoints.forEach((point) => {
       point.toggleHideText();
     });
-    this._isUsingWeights = false;
+    this._isUsingWeights = !this._isUsingWeights;
   }
 
   findPath() {
@@ -153,6 +153,7 @@ export class Frontend {
       return;
     }
 
+    console.log("using weights", this._isUsingWeights);
     const aStar = new AStar(
       this._allPoints,
       this._startPoint,

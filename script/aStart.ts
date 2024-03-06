@@ -25,7 +25,7 @@ class NodeBase {
   }
 
   getF() {
-    return this.g + this.h + this.node.weight;
+    return this.f;
   }
 
   getH() {
@@ -134,7 +134,15 @@ export class AStar {
 
           neighbor.setG(q.g + 1);
           neighbor.setH(this.heuristic(neighbor.node, endPoint.node));
-          neighbor.setF(neighbor.getG() + neighbor.getH());
+          console.log(
+            "weight",
+            this._isUsingWeights ? neighbor.node.weight : 0
+          );
+          neighbor.setF(
+            neighbor.getG() +
+              neighbor.getH() +
+              (this._isUsingWeights ? neighbor.node.weight : 0)
+          );
 
           if (
             openList.some(
