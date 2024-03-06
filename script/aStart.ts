@@ -25,7 +25,7 @@ class NodeBase {
   }
 
   getF() {
-    return this.g + this.h;
+    return this.g + this.h + this.node.weight;
   }
 
   getH() {
@@ -126,7 +126,7 @@ export class AStar {
         const neighbor = successors[i];
         if(neighbor.node.equals(endPoint.node) && n < this._pointsOfInterest.length){
           found = true;
-          objective = neighbor
+          objective = neighbor;
           startPoint = neighbor;
         }
         if (neighbor.node.equals(endPoint.node) && n == this._pointsOfInterest.length) {

@@ -23,7 +23,7 @@ class NodeBase {
         this.f = f;
     }
     getF() {
-        return this.g + this.h;
+        return this.g + this.h + this.node.weight;
     }
     getH() {
         return this.h;
