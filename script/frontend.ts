@@ -46,10 +46,6 @@ export class Frontend {
       this.findPath();
     });
 
-    this._weightBtn?.addEventListener("click", () => {
-      this.disableWeights();
-    });
-
     this._gridContainer?.style.setProperty(
       "grid-template-columns",
       `repeat(${Frontend._gridSize}, 1fr)`

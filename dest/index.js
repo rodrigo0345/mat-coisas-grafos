@@ -51,4 +51,7 @@ window.addEventListener("load", () => {
             });
         });
     });
+    weightBtn.addEventListener("click", () => {
+        frontend.disableWeights();
+    });
 });

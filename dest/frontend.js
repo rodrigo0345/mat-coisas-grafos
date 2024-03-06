@@ -23,7 +23,7 @@ export class Frontend {
         this._weightBtn = weightBtn;
     }
     generateGrid() {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d;
         // remove all children from grid container
         while ((_a = this._gridContainer) === null || _a === void 0 ? void 0 : _a.firstChild) {
             this._gridContainer.removeChild(this._gridContainer.firstChild);
@@ -31,10 +31,7 @@ export class Frontend {
         (_b = this._findBtn) === null || _b === void 0 ? void 0 : _b.addEventListener("click", () => {
             this.findPath();
         });
-        (_c = this._weightBtn) === null || _c === void 0 ? void 0 : _c.addEventListener("click", () => {
-            this.disableWeights();
-        });
-        (_d = this._gridContainer) === null || _d === void 0 ? void 0 : _d.style.setProperty("grid-template-columns", `repeat(${Frontend._gridSize}, 1fr)`);
+        (_c = this._gridContainer) === null || _c === void 0 ? void 0 : _c.style.setProperty("grid-template-columns", `repeat(${Frontend._gridSize}, 1fr)`);
         for (let y = 1; y <= Frontend._gridSize; y++) {
             for (let x = 1; x <= Frontend._gridSize; x++) {
                 const weight = Math.floor(Math.random() * 8) + 1; // Random weight from 1 to 10
@@ -47,7 +44,7 @@ export class Frontend {
                 this._allPoints.push(new Node(x, y, weight, gridItem));
                 if (!this._gridContainer)
                     throw new Error("Grid container not found");
-                (_e = this._gridContainer) === null || _e === void 0 ? void 0 : _e.appendChild(gridItem);
+                (_d = this._gridContainer) === null || _d === void 0 ? void 0 : _d.appendChild(gridItem);
             }
         }
     }
