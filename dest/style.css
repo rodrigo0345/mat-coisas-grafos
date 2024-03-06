@@ -4,13 +4,7 @@
     font-family: 'Courier New', Courier, monospace;
 }
 
-.pi-class {
-    background-color: #e74c3c;
-}
 
-.pc-class {
-    background-color: #2ecc71;
-}
 
 .obs-class {
     background-color: #808080; /* Gray color for obstacle */
@@ -31,6 +25,7 @@
 .path-class {
     background-color: #3498db;
 }
+
 
 #container-settings {
     background-color: #fff;
@@ -102,4 +97,12 @@ select {
     width: 70px;
     outline: none;
     margin-right: 10px;
+}
+
+.pc-class {
+    background-color: #2ecc71;
+}
+
+.pi-class {
+    background-color: #e74c3c;
 }
