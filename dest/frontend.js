@@ -117,11 +117,17 @@ export class Frontend {
                 this._toggleObstacle(point);
         }
     }
-    disableWeights() {
+    toggleWeights() {
         this._allPoints.forEach((point) => {
             point.toggleHideText();
         });
         this._isUsingWeights = !this._isUsingWeights;
+    }
+    disableWeights() {
+        this._allPoints.forEach((point) => {
+            point.toggleHideText();
+        });
+        this._isUsingWeights = false;
     }
     findPath() {
         if (this._startPoint === null || this._pointsOfInterest.length === 0) {

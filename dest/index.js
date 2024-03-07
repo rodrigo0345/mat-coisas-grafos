@@ -12,7 +12,7 @@ window.addEventListener("load", () => {
         throw new Error("Weight button not found");
     const frontend = new Frontend(gridContainer, window, findBtn, weightBtn);
     frontend.generateGrid();
-    frontend.disableWeights();
+    frontend.toggleWeights();
     const gridItems = document.querySelectorAll(".grid-item");
     gridItems.forEach((item) => {
         item.addEventListener("click", function (e) {
@@ -60,6 +60,6 @@ window.addEventListener("load", () => {
         });
     });
     weightBtn.addEventListener("click", () => {
-        frontend.disableWeights();
+        frontend.toggleWeights();
     });
 });

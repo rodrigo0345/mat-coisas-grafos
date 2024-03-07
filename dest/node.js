@@ -25,6 +25,11 @@ export class Node {
         this.isHiddenText = true;
         this.element.textContent = "";
     }
+    hideText() {
+        this.isHiddenText = true;
+        this.element.textContent = "";
+        return;
+    }
     toggleObstacleClass() {
         if (this.element.classList.contains("obs-class")) {
             this.element.classList.remove("obs-class");
