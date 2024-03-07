@@ -49,6 +49,7 @@ window.addEventListener("load", () => {
     frontend._obstaclePoints = [];
     frontend._startPoint = null;
     frontend._pointsOfInterest = [];
+    frontend.disableWeights();
 
     Frontend._gridSize = parseInt(e.target.value, 10);
     frontend.generateGrid();
