@@ -82,7 +82,9 @@ export class AStar {
                         break;
                     }
                     const successors = this.getNeighbors(q.node).filter((neighbor) => {
-                        return !neighbor.node.isDisabled;
+                        return !neighbor.node.isDisabled && !closedList.some(el => {
+                            return el.node.equals(neighbor.node);
+                        });
                     });
                     successors.forEach((neighbor) => {
                         neighbor.setParent(q);
