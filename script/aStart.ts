@@ -88,6 +88,10 @@ export class AStar {
     for (let n = 0; n < this._pointsOfInterest.length; n++) {
       let endPoint = new NodeBase(this._pointsOfInterest[n]);
 
+      if(n == this._pointsOfInterest.length){
+        break;
+      }
+
       let openList: NodeBase[] = [startPoint];
       let closedList: NodeBase[] = [];
 

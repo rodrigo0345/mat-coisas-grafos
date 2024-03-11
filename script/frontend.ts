@@ -19,7 +19,7 @@ export class Frontend {
   _findBtn: HTMLElement | null = null;
   _weightBtn: HTMLElement | null = null;
 
-  static _gridSize: number = 13;
+  static _gridSize: number = 10;
   _isUsingWeights: boolean = true;
   _delay: number = 50;
 

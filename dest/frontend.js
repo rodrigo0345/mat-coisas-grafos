@@ -139,4 +139,4 @@ export class Frontend {
         aStar.findPath();
     }
 }
-Frontend._gridSize = 13;
+Frontend._gridSize = 10;

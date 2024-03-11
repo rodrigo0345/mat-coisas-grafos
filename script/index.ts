@@ -55,6 +55,7 @@ window.addEventListener("load", () => {
     frontend.generateGrid();
 
     frontend.disableWeights();
+    
 
     
 
