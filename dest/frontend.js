@@ -17,7 +17,9 @@ export class Frontend {
         this._weightBtn = null;
         this._isUsingWeights = true;
         this._delay = 50;
+        this._isrunnign = false;
         this._enabledType = NodeStateEnum.OBS_POINT;
+        this.isFindingPath = false;
         this._gridContainer = gridContainer;
         this._window = window;
         this._findBtn = findBtn;
@@ -25,6 +27,16 @@ export class Frontend {
     }
     changeDelay(value) {
         this._delay = value;
+    }
+    reset() {
+        const i = document.querySelectorAll('.debug-class');
+        const d = document.querySelectorAll('.path-class');
+        i.forEach((item) => {
+            item.classList.remove('debug-class');
+        });
+        d.forEach((item) => {
+            item.classList.remove('path-class');
+        });
     }
     generateGrid() {
         var _a, _b, _c, _d;
@@ -130,13 +142,21 @@ export class Frontend {
         this._isUsingWeights = false;
     }
     findPath() {
+        if (this.isFindingPath) {
+            console.log("A path finding operation is already in progress.");
+            return;
+        }
         if (this._startPoint === null || this._pointsOfInterest.length === 0) {
             window.alert("Ponto de começo ou de interesse não selecionado!");
             return;
         }
+        this.reset();
         console.log("using weights", this._isUsingWeights);
         const aStar = new AStar(this._allPoints, this._startPoint, this._pointsOfInterest, this._isUsingWeights, this._delay);
-        aStar.findPath();
+        this.isFindingPath = true;
+        aStar.findPath().then(() => {
+            this.isFindingPath = false;
+        });
     }
 }
 Frontend._gridSize = 10;

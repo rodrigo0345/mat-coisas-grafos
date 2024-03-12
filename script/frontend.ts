@@ -22,6 +22,8 @@ export class Frontend {
   static _gridSize: number = 10;
   _isUsingWeights: boolean = true;
   _delay: number = 50;
+  _isrunnign: boolean = false;
+  
 
   _enabledType = NodeStateEnum.OBS_POINT;
 
@@ -41,7 +43,20 @@ export class Frontend {
     this._delay = value;
   }
 
+  reset(){
+    const i = document.querySelectorAll('.debug-class');
+    const d = document.querySelectorAll('.path-class');
+
+    i.forEach((item) => {
+      item.classList.remove('debug-class');
+    });
+
+    d.forEach((item) => {
+      item.classList.remove('path-class');
+    });
+  }
   generateGrid() {
+    
     // remove all children from grid container
     while (this._gridContainer?.firstChild) {
       this._gridContainer.removeChild(this._gridContainer.firstChild);
@@ -163,20 +178,33 @@ export class Frontend {
   
 
 
-  findPath() {
-    if (this._startPoint === null || this._pointsOfInterest.length === 0) {
-      window.alert("Ponto de começo ou de interesse não selecionado!");
-      return;
-    }
+  private isFindingPath: boolean = false;
 
-    console.log("using weights", this._isUsingWeights);
-    const aStar = new AStar(
-      this._allPoints,
-      this._startPoint,
-      this._pointsOfInterest,
-      this._isUsingWeights,
-      this._delay
-    );
-    aStar.findPath();
+  findPath() {
+      
+      if (this.isFindingPath) {
+          console.log("A path finding operation is already in progress.");
+          return;
+      }
+  
+      if (this._startPoint === null || this._pointsOfInterest.length === 0) {
+          window.alert("Ponto de começo ou de interesse não selecionado!");
+          return;
+      }
+      this.reset();
+      console.log("using weights", this._isUsingWeights);
+      const aStar = new AStar(
+          this._allPoints,
+          this._startPoint,
+          this._pointsOfInterest,
+          this._isUsingWeights,
+          this._delay
+      );
+  
+      this.isFindingPath = true;
+  
+      aStar.findPath().then(() => {          
+          this.isFindingPath = false; 
+      });
   }
 }

@@ -83,6 +83,7 @@ export class AStar {
   }
 
   async findPath() {
+    
     let startPoint = new NodeBase(this._startPoint);
 
     for (let n = 0; n < this._pointsOfInterest.length; n++) {
@@ -195,6 +196,7 @@ export class AStar {
     this._pointsToEnableEnd.forEach((node) => {
       node.activateNode();
     });
+  
   }
 
   private colorPath(node: NodeBase) {
